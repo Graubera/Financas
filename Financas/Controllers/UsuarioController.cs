@@ -31,6 +31,7 @@ namespace Financas.Controllers
             }
             return View("Form", usuario);
         }
+
         public ActionResult Index()
         {
             IList<Usuario> usuarios = dao.Lista();
