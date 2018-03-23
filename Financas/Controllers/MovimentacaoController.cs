@@ -30,6 +30,7 @@ namespace Financas.Controllers
         {
             if (ModelState.IsValid)
             {
+                //movimentacao.Usuario.Nome = User.Identity.ToString();
                 movimentacaoDAO.Adiciona(movimentacao);
                 return RedirectToAction("Index");
             }
@@ -41,6 +42,22 @@ namespace Financas.Controllers
         {
             IList<Movimentacao> movimentacao = movimentacaoDAO.Lista();
             return View(movimentacao);
+        }
+
+        public ActionResult MovimentacoesPorUsuario(MovimentacoesPorUsuarioModel model)
+        {
+            model.Usuarios = usuarioDAO.Lista();
+            model.Movimentacoes = movimentacaoDAO.BuscaPorUsuario(model.UsuarioId);
+            return View(model);
+        }
+
+        public ActionResult Busca(BuscaMovimentacoesModel model)
+        {
+            model.Usuarios = usuarioDAO.Lista();
+            model.Movimentacoes = movimentacaoDAO.Busca(model.ValorMinimo, model.ValorMaximo,
+                                    model.DataMinima, model.DataMaxima,
+                                    model.Tipo, model.UsuarioId);
+            return View(model);
         }
     }
 }
